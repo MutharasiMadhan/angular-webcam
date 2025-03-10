@@ -52,6 +52,7 @@ export class PatientSelectionComponent implements OnInit {
   selectTab(tab: string) {
     this.selectedTab = tab;
     tab === 'new' ? this.initializeNewPatientForm() : this.initializeExistingPatientForm();
+    this.showAlert = false;
   }
   constructor(
     public patientEnrollmentService: PatientEnrollmentService,
@@ -153,13 +154,18 @@ export class PatientSelectionComponent implements OnInit {
     this.selectedFiles = [];
   }
 
+  clearExistingInsuranceFile() {
+    (document.getElementById('existingInsuranceFile') as HTMLInputElement).value = ''; // Reset file input
+  }
+
   clearInsuranceFile() {
     (document.getElementById('insuranceFile') as HTMLInputElement).value = ''; // Reset file input
   }
 
   handleFileInput(input: any): void {
     this.showAlert = false;
-
+    this.isPatientDetailsReceived = false;
+    this.showInsuranceSection = false;
     const files = (this.selectedFiles = input?.target?.files);
 
     console.log('input webcam image', files.length);

@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -8,7 +14,10 @@ import { Router } from '@angular/router';
 export class ErrorInterceptorService implements HttpInterceptor {
   constructor(private router: Router) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error);
@@ -24,16 +33,19 @@ export class ErrorInterceptorService implements HttpInterceptor {
             case 400:
               if (error.error.code === 'INSURANCE_EXPIRED') {
                 errorMessage = error.error.error;
-                break;
+              } else if (error.error.error === 'Please upload the clear form') {
+                errorMessage = 'Please upload the clear form';
+              } else {
+                errorMessage = 'Bad Request! Please check the entered data.';
               }
-              errorMessage = 'Bad Request! Please check the entered data.';
               break;
             case 401:
               errorMessage = 'Unauthorized! Please login again.';
               this.router.navigate(['/login']);
               break;
             case 403:
-              errorMessage = 'Forbidden! You don’t have permission to access this resource.';
+              errorMessage =
+                'Forbidden! You don’t have permission to access this resource.';
               break;
             case 404:
               errorMessage = 'Not Found! The requested resource was not found.';
@@ -43,7 +55,8 @@ export class ErrorInterceptorService implements HttpInterceptor {
               break;
             case 500:
               if (error.error.error === 'Patient already exists') {
-                errorMessage = 'Please check the Existing Patient tab if you are already enrolled.'
+                errorMessage =
+                  'Please check the Existing Patient tab if you are already enrolled.';
               } else if (error.error.error === 'Please upload the clear form') {
                 errorMessage = 'Please upload the clear form';
               } else {

@@ -25,6 +25,9 @@
                 </div>
                 <button *ngIf="showEnrollmentButton" type="button" class="btn btn-primary mt-2"
                     (click)="uploadEnrollment()">Upload Enrollment</button>
+                <div class="alert alert-{{ alertType }} mt-2" role="alert" *ngIf="showAlert">
+                    {{alertMessage}}
+                </div>
             </div>
             <div *ngIf="isPatientDetailsReceived" class="card p-4 mt-4">
                 <h4>Review & Edit Patient Details</h4>
@@ -56,8 +59,12 @@
                     <label class="form-label">Primary Physician:</label>
                     <input type="text" class="form-control" formControlName="primaryPhysician">
 
-                    <button type="button" class="btn btn-primary mt-3" (click)="submitEnrollment(patient, false)">Validate
+                    <button type="button" class="btn btn-primary mt-3"
+                        (click)="submitEnrollment(patient, false)">Validate
                         & Submit</button>
+                    <div class="alert alert-{{ alertType }} mt-2" role="alert" *ngIf="showAlert">
+                        {{alertMessage}}
+                    </div>
                 </form>
             </div>
             <div *ngIf="showInsuranceSection" id="insuranceSection" class="card mt-5 p-4">
@@ -65,12 +72,16 @@
                 <form id="insuranceForm" enctype="multipart/form-data">
                     <label for="insuranceFile" class="form-label">Upload Insurance Card:</label>
                     <div class="input-group">
-                        <input type="file" class="form-control" id="insuranceFile" accept="image/*"
-                        multiple (change)="validateImages($event)">
-                        <button class="btn btn-outline-secondary" type="button" (click)="clearInsuranceFile()">Clear</button>
+                        <input type="file" class="form-control" id="insuranceFile" accept="image/*" multiple
+                            (change)="validateImages($event)">
+                        <button class="btn btn-outline-secondary" type="button"
+                            (click)="clearInsuranceFile()">Clear</button>
                     </div>
                     <button type="button" class="btn btn-primary mt-3" (click)="uploadInsurance(false)">Upload
                         Insurance</button>
+                    <div class="alert alert-{{ alertType }} mt-2" role="alert" *ngIf="showAlert">
+                        {{alertMessage}}
+                    </div>
                 </form>
                 <div id="insuranceData" class="mt-4" *ngIf="insuranceData">
                     <div class="container mt-4">
@@ -106,8 +117,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- <p><strong>Provider:</strong> {{insuranceData?.insurance?.insuranceProvider}}</p>
-                    <p><strong>Policy Number:</strong> {{insuranceData?.insurance?.policyNumber}}</p> -->
                 </div>
             </div>
         </div>
@@ -118,6 +127,9 @@
                 <label class="form-label">Enter SSN or Patient ID:</label>
                 <input type="text" class="form-control" id="patientId" formControlName="pid" placeholder="SSN or PID">
                 <button type="button" class="btn btn-primary mt-3" (click)="fetchPatientDetails()">Search</button>
+                <div class="alert alert-{{ alertType }} mt-2" role="alert" *ngIf="showAlert">
+                    {{alertMessage}}
+                </div>
             </form>
             <div *ngIf="isExistingPatientDetailsReceived" class="card p-4 mt-4">
                 <h4>Review & Edit Patient Details</h4>
@@ -149,8 +161,12 @@
                     <label class="form-label">Primary Physician:</label>
                     <input type="text" class="form-control" formControlName="primaryPhysician">
 
-                    <button type="button" class="btn btn-primary mt-3" (click)="submitEnrollment(existingPatientForm, true)">Validate
+                    <button type="button" class="btn btn-primary mt-3"
+                        (click)="submitEnrollment(existingPatientForm, true)">Validate
                         & Submit</button>
+                    <div class="alert alert-{{ alertType }} mt-2" role="alert" *ngIf="showAlert">
+                        {{alertMessage}}
+                    </div>
                 </form>
             </div>
             <div class="card p-4 mt-4">
@@ -193,11 +209,18 @@
             <div *ngIf="showInsuranceSectionExisting" id="insuranceSection" class="card mt-5 p-4">
                 <h3>Upload New Insurance</h3>
                 <form id="insuranceForm" enctype="multipart/form-data">
-                    <label class="form-label">Upload Insurance Card:</label>
-                    <input type="file" class="form-control" id="insuranceFile" multiple accept="image/*"
-                        (change)="validateImages($event)">
+                    <label for="existingInsuranceFile" class="form-label">Upload Insurance Card:</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="existingInsuranceFile" accept="image/*" multiple
+                            (change)="validateImages($event)">
+                        <button class="btn btn-outline-secondary" type="button"
+                            (click)="clearExistingInsuranceFile()">Clear</button>
+                    </div>
                     <button type="button" class="btn btn-primary mt-3" (click)="uploadInsurance(true)">Upload
                         Insurance</button>
+                    <div class="alert alert-{{ alertType }} mt-2" role="alert" *ngIf="showAlert">
+                        {{alertMessage}}
+                    </div>
                 </form>
             </div>
         </div>
