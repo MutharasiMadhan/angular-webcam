@@ -22,6 +22,10 @@ export class ErrorInterceptorService implements HttpInterceptor {
           // Server-side error
           switch (error.status) {
             case 400:
+              if (error.error.code === 'INSURANCE_EXPIRED') {
+                errorMessage = error.error.error;
+                break;
+              }
               errorMessage = 'Bad Request! Please check the entered data.';
               break;
             case 401:
