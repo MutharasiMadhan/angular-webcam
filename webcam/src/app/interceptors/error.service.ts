@@ -34,8 +34,11 @@ export class ErrorInterceptorService implements HttpInterceptor {
             case 404:
               errorMessage = 'Not Found! The requested resource was not found.';
               break;
+            case 409:
+              errorMessage = 'Patient already exists';
+              break;
             case 500:
-              if (error.error.error === 'Failed to process enrollment') {
+              if (error.error.error === 'Patient already exists') {
                 errorMessage = 'Please check the Existing Patient tab if you are already enrolled.'
               } else if (error.error.error === 'Please upload the clear form') {
                 errorMessage = 'Please upload the clear form';
