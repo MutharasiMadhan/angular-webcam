@@ -153,6 +153,10 @@ export class PatientSelectionComponent implements OnInit {
     this.selectedFiles = [];
   }
 
+  clearInsuranceFile() {
+    (document.getElementById('insuranceFile') as HTMLInputElement).value = ''; // Reset file input
+  }
+
   handleFileInput(input: any): void {
     this.showAlert = false;
 
