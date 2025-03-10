@@ -201,14 +201,31 @@ export class PatientSelectionComponent implements OnInit {
   }
 
   submitEnrollment(patient: any, isExisting: boolean) {
-    const value = patient.value;
+    const value = isExisting ? patient.value : patient;
+    let pid, address, contactNumber, emergencyContact, medicalHistory, primaryPhysician;
+    if(isExisting) {
+      pid = value.pid || this.existingPatientForm.value.pid;
+      address = value.address || this.existingPatientForm.value.address;
+      contactNumber = value.contactNumber || this.existingPatientForm.value.contactNumber;
+      emergencyContact = value.emergencyContact || this.existingPatientForm.value.emergencyContact;
+      medicalHistory = value.medicalHistory || this.existingPatientForm.value.medicalHistory;
+      primaryPhysician = value.medicalHistory || this.existingPatientForm.value.primaryPhysician;
+    } else {
+      pid = value.pid || this.patientForm.value.pid;
+      address = value.address || this.patientForm.value.address;
+      contactNumber = value.contactNumber || this.patientForm.value.contactNumber;
+      emergencyContact = value.emergencyContact || this.patientForm.value.emergencyContact;
+      medicalHistory = value.medicalHistory || this.patientForm.value.medicalHistory;
+      primaryPhysician = value.medicalHistory || this.patientForm.value.primaryPhysician;
+    }
+    console.log(value);
     let patientData = {
-      pid: value.pid,
-      address: value.address,
-      contactNumber: value.contactNumber,
-      emergencyContact: value.emergencyContact,
-      medicalHistory: value.medicalHistory,
-      primaryPhysician: value.primaryPhysician,
+      pid,
+      address,
+      contactNumber,
+      emergencyContact,
+      medicalHistory,
+      primaryPhysician,
     };
 
     this.patientEnrollmentService.submitEnrollment(patientData).subscribe({
